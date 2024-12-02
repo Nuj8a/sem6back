@@ -5,7 +5,7 @@ const User = mongoose.Schema({
   email: String,
   password: String,
   privilege: {
-    type: Number, // 0=>normal user, 1=>admin, 2=>superadmin
+    type: Number, // 0=>normal user, 1=>admin, 2=>superadminchc
     default: 0,
   },
   image: {
@@ -16,6 +16,7 @@ const User = mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  likedProducts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Blogs" }],
 });
 
 module.exports = mongoose.model("user", User);

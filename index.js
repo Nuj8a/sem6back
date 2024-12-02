@@ -28,7 +28,7 @@ app.use("/api/order", require("./routes/Order"));
 app.use("/api/contact", require("./routes/Contact"));
 app.use("/api/metal", require("./routes/Prise"));
 app.use("/api/target", require("./routes/Target"));
-
+app.use("/api/recomendation", require("./routes/Algorithm"))
 // !================= for static routes =================
 app.use("/api/statistics", require("./routes/Statistics"));
 

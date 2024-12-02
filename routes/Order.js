@@ -148,25 +148,26 @@ route.post("/product/order", fetchUser, async (req, res) => {
       detailId,
       userName: user.name,
     });
+
     const dataOrder = await newOrder.save();
 
-    // Update product quantity
-    // for (const product of products) {
-    //   const { productId, quantity } = product;
-    //   const blog = await Blogs.findById(productId);
-    //   const updatedQuantity = blog.maxQuantity - quantity;
-    //   await Blogs.updateOne(
-    //     { _id: productId },
-    //     { $set: { maxQuantity: updatedQuantity } }
-    //   );
-    // }
+    // Get unique product IDs from order
+    const productIds = [
+      ...new Set(products.map((product) => product.productId)),
+    ];
+
+    // Add ordered product IDs to likedProducts if not already present
+    await User.findByIdAndUpdate(userId, {
+      $addToSet: { likedProducts: { $each: productIds } },
+    });
 
     res.json({ success: "Order placed successfully", data: dataOrder });
   } catch (error) {
     console.error("Error placing order:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-});
+}
+);
 // delete data
 route.delete("/product/order/:id", fetchUser, async (req, res) => {
   try {
@@ -184,7 +185,7 @@ route.delete("/product/order/:id", fetchUser, async (req, res) => {
       Blogs.updateOne(
         { _id: order.productId },
         { $set: { maxQuantity: blog.maxQuantity + order.quntity } },
-        (err, result) => {}
+        (err, result) => { }
       );
       res.json({ success: "Order Deleted" });
     } else {

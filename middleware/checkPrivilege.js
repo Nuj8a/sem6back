@@ -14,7 +14,7 @@ const checkPrivilege = async (req, res, next) => {
     if (Number(userData.privilege) < 1)
       return res
         .status(400)
-        .json({ error: "Access Denide, You Cannot Access This prev" });
+        .json({ error: "Access Denied" });
     req.user = data.user;
     next();
   } catch (e) {
